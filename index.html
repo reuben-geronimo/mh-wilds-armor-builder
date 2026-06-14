@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MH Wilds Set Builder</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="app-container">
+  <h1>MH Wilds Set Builder</h1>
+
+  <div class="main-layout">
+    
+    <div class="selector-section">
+      <div class="dropdown-group">
+        <label for="helm-select">Head Armor:</label>
+        <select id="helm-select">
+          <option value="">-- Select a Helm --</option>
+          <option value="Rathalos Helm">Rathalos Helm</option>
+          <option value="Leather Headgear">Leather Headgear</option>
+        </select>
+      </div>
+
+      <div class="dropdown-group">
+        <label for="chest-select">Chest Armor:</label>
+        <select id="chest-select">
+          <option value="">-- Select a Chest piece --</option>
+          <option value="Rathalos Mail">Rathalos Mail</option>
+          <option value="Leather Vest">Leather Vest</option>
+        </select>
+      </div>
+
+      <div class="dropdown-group">
+        <label for="arms-select">Arm Armor:</label>
+        <select id="arms-select">
+          <option value="">-- Select Arms --</option>
+          <option value="Rathalos Braces">Rathalos Braces</option>
+          <option value="Leather Gloves">Leather Gloves</option>
+        </select>
+      </div>
+
+      <div class="dropdown-group">
+        <label for="waist-select">Waist Armor:</label>
+        <select id="waist-select">
+          <option value="">-- Select a Waist piece --</option>
+          <option value="Rathalos Coil">Rathalos Coil</option>
+          <option value="Leather Belt">Leather Belt</option>
+        </select>
+      </div>
+
+      <div class="dropdown-group">
+        <label for="legs-select">Leg Armor:</label>
+        <select id="legs-select">
+          <option value="">-- Select Leg pieces --</option>
+          <option value="Rathalos Greaves">Rathalos Greaves</option>
+          <option value="Leather Trousers">Leather Trousers</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="stats-section">
+      <h2>Current Build Stats</h2>
+      <p>Total Defense: <span id="total-defense">0</span></p>
+      
+      <h3>Active Skills:</h3>
+      <ul id="skills-list">
+        <li>No skills active</li>
+      </ul>
+    </div>
+
+  </div> </div> <script type="module" src="script.js"></script>
+</body>
+</html>
