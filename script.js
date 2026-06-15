@@ -80,22 +80,19 @@ const armorDataset = [
   }
 ];
 
-// Grab the general dropdown section
 const selectorSection = document.querySelector('.selector-section');
 
-// Grab the dropdown menus
 const helmSelect = document.getElementById('helm-select');
 const chestSelect = document.getElementById('chest-select');
 const armsSelect = document.getElementById('arms-select');
 const waistSelect = document.getElementById('waist-select');
 const legsSelect = document.getElementById('legs-select');
 
-// Grab the display areas where text will change
 const totalDefenseDisplay = document.getElementById('total-defense');
 const skillsListDisplay = document.getElementById('skills-list');
 
 function populateDropdowns() {
-  // A clean dictionary mapping data slots directly to HTML elements
+
   const slotToDropdownMap = {
     "Helm": helmSelect,
     "Chest": chestSelect,
@@ -104,7 +101,6 @@ function populateDropdowns() {
     "Legs": legsSelect
   };
 
-  // Loop through every piece of armor in the dataset
   for (let i = 0; i < armorDataset.length; i++) {
     const item = armorDataset[i];
 
