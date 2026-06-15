@@ -131,3 +131,40 @@ p {
   border-radius: 0 4px 4px 0;
   font-size: 14px;
 }
+
+/* --- Skills List Customization --- */
+#skills-list li {
+  background-color: #1a232d;
+  border-left: 4px solid #e5a93c; /* Default Gold accent */
+  padding: 10px 15px;
+  border-radius: 0 4px 4px 0;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between; /* Pushes the level to the far right */
+  align-items: center;
+}
+
+/* Perfect Max Cap State */
+#skills-list li.skill-maxed {
+  border-left-color: #4caf50; /* Green indicator */
+  background-color: #14261c;
+}
+#skills-list li.skill-maxed .skill-level {
+  color: #81c784;
+  font-weight: bold;
+}
+
+/* Overcapped/Wasted Points State */
+#skills-list li.skill-overcapped {
+  border-left-color: #f44336; /* Red indicator */
+  background-color: #2a1415;
+}
+#skills-list li.skill-overcapped .wasted-badge {
+  background-color: #f44336;
+  color: #ffffff;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: bold;
+}

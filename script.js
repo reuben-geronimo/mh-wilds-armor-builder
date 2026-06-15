@@ -1,72 +1,82 @@
+const SKILL_CAPS = {
+  "Weakness Exploit": 3,
+  "Attack Boost": 5,
+  "Critical Eye": 5,
+  "Divine Blessing": 3,
+  "Stamina Surge": 3,
+  "Hunger Resistance": 3,
+  "Item Prolonger": 3
+};
+
 const armorDataset = [
   // --- HEAD PIECES ---
   {
-    "name": "Rathalos Helm",
+    "name": "G. Rathalos Helm",
     "slot": "Helm",
-    "defense": 45,
-    "skills": { "Attack Boost": 1, "Critical Eye": 1 }
+    "defense": 26,
+    "skills": { "Weakness Exploit": 1 }
   },
   {
-    "name": "Leather Headgear",
+    "name": "Leather Headgear α",
     "slot": "Helm",
-    "defense": 10,
-    "skills": { "Recovery Speed": 1 }
+    "defense": 26,
+    "skills": { "Item Prolonger": 1 }
   },
 
   // --- CHEST PIECES ---
   {
-    "name": "Rathalos Mail",
+    "name": "G. Rathalos Mail",
     "slot": "Chest",
-    "defense": 45,
-    "skills": { "Weakness Exploit": 1 }
+    "defense": 26,
+    "skills": { "Attack Boost": 1 }
   },
   {
-    "name": "Leather Vest",
+    "name": "Leather Mail α",
     "slot": "Chest",
-    "defense": 10,
-    "skills": { "Stamina Surge": 1 }
+    "defense": 26,
+    "skills": { "Item Prolonger": 1 }
   },
 
   // --- ARM PIECES ---
   {
-    "name": "Rathalos Braces",
+    "name": "G. Rathalos Vambraces",
     "slot": "Arms",
-    "defense": 45,
-    "skills": { "Attack Boost": 1 }
+    "defense": 26,
+    "skills": { "Weakness Exploit": 1 }
   },
   {
-    "name": "Leather Gloves",
+    "name": "Leather Gloves α",
     "slot": "Arms",
-    "defense": 10,
-    "skills": { "Water Resistance": 1 }
+    "defense": 26,
+    "skills": { "Hunger Resistance": 1 }
   },
 
   // --- WAIST PIECES ---
   {
-    "name": "Rathalos Coil",
+    "name": "G. Rathalos Coil",
     "slot": "Waist",
-    "defense": 45,
-    "skills": { "Critical Eye": 1 }
+    "defense": 26,
+    "skills": { "Attack Boost": 2 }
   },
   {
-    "name": "Leather Belt",
+    "name": "Leather Belt α",
     "slot": "Waist",
-    "defense": 10,
-    "skills": { "Fire Resistance": 1 }
+    "defense": 26,
+    "skills": { "Hunger Resistance": 1 }
   },
 
   // --- LEG PIECES ---
   {
-    "name": "Rathalos Greaves",
+    "name": "G. Rathalos Greaves",
     "slot": "Legs",
-    "defense": 45,
-    "skills": { "Attack Boost": 2 }
+    "defense": 26,
+    "skills": { "Weakness Exploit": 1 }
   },
   {
-    "name": "Leather Trousers",
+    "name": "Leather Pants α",
     "slot": "Legs",
-    "defense": 10,
-    "skills": { "Fire Resistance": 1 }
+    "defense": 26,
+    "skills": { "Hunger Resistance": 1 }
   }
 ];
 
@@ -150,26 +160,52 @@ function calculateTotalStats() {
 }
 
 function renderSkills(skillsObj) {
-  // Clear out the old list completely
+  // Clear the previous visual state
   skillsListDisplay.innerHTML = "";
-
-  // Get an array of all the skill names
   const skillNames = Object.keys(skillsObj);
 
-  // If there are no skills active, show the default message
+  // Safety net for empty builds
   if (skillNames.length === 0) {
     skillsListDisplay.innerHTML = "<li>No skills active</li>";
     return;
   }
 
-  // Loop through our combined skills and create a new HTML <li> tag for each one
+  // Iterate through accumulated skills
   for (let i = 0; i < skillNames.length; i++) {
     const name = skillNames[i];
     const level = skillsObj[name];
 
+    // Lookup cap from configuration; default to 3 if not specified
+    const maxLimit = SKILL_CAPS[name] || 3;
+
     const li = document.createElement('li');
-    li.textContent = `${name} Lv. ${level}`;
-    skillsListDisplay.appendChild(li);
+
+    if (level === maxLimit) {
+      // Scenario A: Skill is perfectly maxxed out
+      li.classList.add('skill-maxed');
+      li.innerHTML = `
+      <span class="skill-name">${name}</span>
+      <span class="skill-level">MAX Lv. ${maxLimit}</span>
+      `;
+    } else if (level > maxLimit) {
+      // Scenario B: Skill is overcapped
+      li.classList.add('skill-overcapped');
+      const wastedPoints = level - maxLimit;
+      li.innerHTML = `
+      <span class="skill-name">${name}</span>
+      <div>
+        <span class="wasted-badge">${wastedPoints} Over</span>
+        <span class="skill-level">Lv. ${maxLimit}</span>
+      </div>
+      `;
+    } else {
+      // Scenario C: Normal skill progression
+      li.innerHTML = `
+      <span class="skill-name">${name}</span>
+      <span class="skill-level">Lv. ${level} / ${maxLimit}</span>
+      `;
+    }
+    skillsListDisplay.appendChild(li); // Append the list item to the display after setting its content
   }
 }
 
