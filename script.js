@@ -84,6 +84,33 @@ const legsSelect = document.getElementById('legs-select');
 const totalDefenseDisplay = document.getElementById('total-defense');
 const skillsListDisplay = document.getElementById('skills-list');
 
+function populateDropdowns() {
+  // Loop through every piece of armor in the dataset
+  for (let i = 0; i < armorDataset.length; i++) {
+    const item = armorDataset[i];
+
+    // 1. Create a brand new, empty <option> element
+    const option = document.createElement('option');
+    option.value = item.name;
+    option.textContent = item.name;
+
+    // 2. Figure out which dropdown this item belongs to based on its slot
+    if (item.slot === "Helm") {
+      helmSelect.appendChild(option);
+    } else if (item.slot === "Chest") {
+      chestSelect.appendChild(option);
+    } else if (item.slot === "Arms") {
+      armsSelect.appendChild(option);
+    } else if (item.slot === "Waist") {
+      waistSelect.appendChild(option);
+    } else if (item.slot === "Legs") {
+      legsSelect.appendChild(option);
+    }
+  }
+}
+
+populateDropdowns();
+
 function calculateTotalStats() {
   let totalDefense = 0;
   let activeSkills = {};
