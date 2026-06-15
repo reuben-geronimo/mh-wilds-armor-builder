@@ -85,26 +85,29 @@ const totalDefenseDisplay = document.getElementById('total-defense');
 const skillsListDisplay = document.getElementById('skills-list');
 
 function populateDropdowns() {
+  // A clean dictionary mapping data slots directly to HTML elements
+  const slotToDropdownMap = {
+    "Helm": helmSelect,
+    "Chest": chestSelect,
+    "Arms": armsSelect,
+    "Waist": waistSelect,
+    "Legs": legsSelect
+  };
+
   // Loop through every piece of armor in the dataset
   for (let i = 0; i < armorDataset.length; i++) {
     const item = armorDataset[i];
 
-    // 1. Create a brand new, empty <option> element
     const option = document.createElement('option');
     option.value = item.name;
     option.textContent = item.name;
 
-    // 2. Figure out which dropdown this item belongs to based on its slot
-    if (item.slot === "Helm") {
-      helmSelect.appendChild(option);
-    } else if (item.slot === "Chest") {
-      chestSelect.appendChild(option);
-    } else if (item.slot === "Arms") {
-      armsSelect.appendChild(option);
-    } else if (item.slot === "Waist") {
-      waistSelect.appendChild(option);
-    } else if (item.slot === "Legs") {
-      legsSelect.appendChild(option);
+    // 1. Dynamic lookup: find the correct select element using the item's slot name
+    const targetDropdown = slotToDropdownMap[item.slot];
+
+    // 2. Safety check: If the slot exists in our map, append the option
+    if (targetDropdown) {
+      targetDropdown.appendChild(option);
     }
   }
 }
