@@ -8,128 +8,76 @@ const SKILL_CAPS = {
   "Item Prolonger": 3
 };
 
-const armorDataset = [
-  // --- HEAD PIECES ---
-  {
-    "name": "G. Rathalos Helm",
-    "slot": "Helm",
-    "defense": 26,
-    "skills": { "Weakness Exploit": 1 }
-  },
-  {
-    "name": "Leather Headgear α",
-    "slot": "Helm",
-    "defense": 26,
-    "skills": { "Item Prolonger": 1 }
-  },
+const API_URL = 'http://localhost:3000/api/armor';
+let armorDataset = [];
 
-  // --- CHEST PIECES ---
-  {
-    "name": "G. Rathalos Mail",
-    "slot": "Chest",
-    "defense": 26,
-    "skills": { "Attack Boost": 1 }
-  },
-  {
-    "name": "Leather Mail α",
-    "slot": "Chest",
-    "defense": 26,
-    "skills": { "Item Prolonger": 1 }
-  },
+// Asynchronous engine to pull data from our API on page load
+async function initializeApp() {
+  try {
+    const response = await fetch(API_URL);
 
-  // --- ARM PIECES ---
-  {
-    "name": "G. Rathalos Vambraces",
-    "slot": "Arms",
-    "defense": 26,
-    "skills": { "Weakness Exploit": 1 }
-  },
-  {
-    "name": "Leather Gloves α",
-    "slot": "Arms",
-    "defense": 26,
-    "skills": { "Hunger Resistance": 1 }
-  },
+    if (!response.ok) {
+      throw new Error(`Network response error: ${response.status}`);
+    }
 
-  // --- WAIST PIECES ---
-  {
-    "name": "G. Rathalos Coil",
-    "slot": "Waist",
-    "defense": 26,
-    "skills": { "Attack Boost": 2 }
-  },
-  {
-    "name": "Leather Belt α",
-    "slot": "Waist",
-    "defense": 26,
-    "skills": { "Hunger Resistance": 1 }
-  },
+    // Store the values from the data stream onto our global variable
+    armorDataset = await response.json();
 
-  // --- LEG PIECES ---
-  {
-    "name": "G. Rathalos Greaves",
-    "slot": "Legs",
-    "defense": 26,
-    "skills": { "Weakness Exploit": 1 }
-  },
-  {
-    "name": "Leather Pants α",
-    "slot": "Legs",
-    "defense": 26,
-    "skills": { "Hunger Resistance": 1 }
+    populateDropdowns()
+
+  } catch (error) {
+    console.error("❌ Failed to fetch armor data from backend:", error);
+    alert("Unable to load armor data. Please ensure your Node.js server is running on Port 3000.")
   }
-];
+}
 
-// Grab the general dropdown section
+initializeApp();
+
 const selectorSection = document.querySelector('.selector-section');
 
-// Grab the dropdown menus
-const helmSelect = document.getElementById('helm-select');
+const headSelect = document.getElementById('head-select');
 const chestSelect = document.getElementById('chest-select');
 const armsSelect = document.getElementById('arms-select');
 const waistSelect = document.getElementById('waist-select');
 const legsSelect = document.getElementById('legs-select');
 
-// Grab the display areas where text will change
 const totalDefenseDisplay = document.getElementById('total-defense');
 const skillsListDisplay = document.getElementById('skills-list');
 
 function populateDropdowns() {
-  // A clean dictionary mapping data slots directly to HTML elements
+
   const slotToDropdownMap = {
-    "Helm": helmSelect,
-    "Chest": chestSelect,
-    "Arms": armsSelect,
-    "Waist": waistSelect,
-    "Legs": legsSelect
+    "head": headSelect,
+    "chest": chestSelect,
+    "arms": armsSelect,
+    "waist": waistSelect,
+    "legs": legsSelect
   };
 
-  // Loop through every piece of armor in the dataset
-  for (let i = 0; i < armorDataset.length; i++) {
-    const item = armorDataset[i];
+  // Clear previous options to prevent duplicating sets on reload
+  Object.values(slotToDropdownMap).forEach(select => {
+    if (select) select.innerHTML = `<option value="">Select Gear</option>`;
+  });
 
+  armorDataset.forEach(piece => {
     const option = document.createElement('option');
-    option.value = item.name;
-    option.textContent = item.name;
+    option.value = piece.name;
+    option.textContent = piece.name;
 
-    // 1. Dynamic lookup: find the correct select element using the item's slot name
-    const targetDropdown = slotToDropdownMap[item.slot];
+    const targetDropdown = slotToDropdownMap[piece.slot];
 
-    // 2. Safety check: If the slot exists in our map, append the option
     if (targetDropdown) {
       targetDropdown.appendChild(option);
     }
-  }
+  });
 }
-
-populateDropdowns();
 
 function calculateTotalStats() {
   let totalDefense = 0;
   let activeSkills = {};
 
   const selectedEquipped = [
-    helmSelect.value,
+    headSelect.value,
     chestSelect.value,
     armsSelect.value,
     waistSelect.value,
