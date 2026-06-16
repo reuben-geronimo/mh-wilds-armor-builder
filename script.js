@@ -35,7 +35,7 @@ initializeApp();
 
 const selectorSection = document.querySelector('.selector-section');
 
-const helmSelect = document.getElementById('helm-select');
+const headSelect = document.getElementById('head-select');
 const chestSelect = document.getElementById('chest-select');
 const armsSelect = document.getElementById('arms-select');
 const waistSelect = document.getElementById('waist-select');
@@ -47,11 +47,11 @@ const skillsListDisplay = document.getElementById('skills-list');
 function populateDropdowns() {
 
   const slotToDropdownMap = {
-    "Helm": helmSelect,
-    "Chest": chestSelect,
-    "Arms": armsSelect,
-    "Waist": waistSelect,
-    "Legs": legsSelect
+    "head": headSelect,
+    "chest": chestSelect,
+    "arms": armsSelect,
+    "waist": waistSelect,
+    "legs": legsSelect
   };
 
   // Clear previous options to prevent duplicating sets on reload
@@ -62,7 +62,7 @@ function populateDropdowns() {
   armorDataset.forEach(piece => {
     const option = document.createElement('option');
     option.value = piece.name;
-    option.textContent = `${piece.name} (Def: ${piece.defense})`;
+    option.textContent = piece.name;
 
     const targetDropdown = slotToDropdownMap[piece.slot];
 
@@ -77,7 +77,7 @@ function calculateTotalStats() {
   let activeSkills = {};
 
   const selectedEquipped = [
-    helmSelect.value,
+    headSelect.value,
     chestSelect.value,
     armsSelect.value,
     waistSelect.value,
