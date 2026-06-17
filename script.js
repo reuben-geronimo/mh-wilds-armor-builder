@@ -42,6 +42,12 @@ const waistSelect = document.getElementById('waist-select');
 const legsSelect = document.getElementById('legs-select');
 
 const totalDefenseDisplay = document.getElementById('total-defense');
+const totalFireDisplay = document.getElementById('total-fire');
+const totalWaterDisplay = document.getElementById('total-water');
+const totalIceDisplay = document.getElementById('total-ice');
+const totalThunderDisplay = document.getElementById('total-thunder');
+const totalDragonDisplay = document.getElementById('total-dragon');
+
 const skillsListDisplay = document.getElementById('skills-list');
 
 function populateDropdowns() {
@@ -74,6 +80,13 @@ function populateDropdowns() {
 
 function calculateTotalStats() {
   let totalDefense = 0;
+
+  let totalFire = 0;
+  let totalWater = 0;
+  let totalIce = 0;
+  let totalThunder = 0;
+  let totalDragon = 0;
+
   let activeSkills = {};
 
   const selectedEquipped = [
@@ -83,16 +96,21 @@ function calculateTotalStats() {
     waistSelect.value,
     legsSelect.value
   ]
-
-  for (let i = 0; i < armorDataset.length; i++) {
-    const item = armorDataset[i];
-
-    if (selectedEquipped.includes(item.name)) {
-      totalDefense += item.defense;
-
-      for (const skillName in item.skills) {
-        const skillLevel = item.skills[skillName];
-
+  armorDataset.forEach(piece => {
+    if (selectedEquipped.includes(piece.name)) {
+      totalDefense += piece.defense || 0;
+  
+      if (piece.resistances) {
+        totalFire += piece.resistances.fire || 0;
+        totalWater += piece.resistances.water || 0;
+        totalIce += piece.resistances.ice || 0;
+        totalThunder += piece.resistances.thunder || 0;
+        totalDragon += piece.resistances.dragon || 0;
+      }
+  
+      for (const skillName in piece.skills) {
+        const skillLevel = piece.skills[skillName];
+  
         if (activeSkills[skillName]) {
           activeSkills[skillName] += skillLevel;
         } else {
@@ -100,9 +118,14 @@ function calculateTotalStats() {
         }
       }
     }
-  }
+  });
 
   totalDefenseDisplay.textContent = totalDefense;
+  totalFireDisplay.textContent = totalFire;
+  totalWaterDisplay.textContent = totalWater;
+  totalIceDisplay.textContent = totalIce;
+  totalThunderDisplay.textContent = totalThunder;
+  totalDragonDisplay.textContent = totalDragon;
 
   renderSkills(activeSkills);
 }

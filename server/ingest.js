@@ -40,7 +40,14 @@ https.get(API_URL, (res) => {
         return {
           name: piece.name,
           slot: slotMap[piece.kind] || piece.kind,
-          defense: piece.defense ? piece.defense.base : 0, 
+          defense: piece.defense ? piece.defense.base : 0,
+					resistances: {
+						fire: piece.resistances ? (piece.resistances.fire || 0) : 0,
+						water: piece.resistances ? (piece.resistances.water || 0) : 0,
+						ice: piece.resistances ? (piece.resistances.ice || 0) : 0,
+						thunder: piece.resistances ? (piece.resistances.thunder || 0) : 0,
+						dragon: piece.resistances ? (piece.resistances.dragon || 0) : 0,
+					},
           skills: flatSkills
         }
       });

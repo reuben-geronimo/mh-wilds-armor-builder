@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 
-const { armorDataset } = require('./data');
+const { armorDataset } = require('./data.js');
 
 const app = express();
 const PORT = 3000;
@@ -20,6 +20,7 @@ app.get('/api/status', (req, res) => {
 });
 
 app.get('/api/armor', (req, res) => {
+  console.log("🚀 Frontend is requesting armor data!");
   res.json(armorDataset);
 });
 
